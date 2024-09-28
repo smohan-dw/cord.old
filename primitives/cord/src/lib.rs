@@ -15,25 +15,16 @@
 
 // You should have received a copy of the GNU General Public License
 // along with CORD. If not, see <https://www.gnu.org/licenses/>.
-
-// Low-level types used throughout the CORD code.
-
 #![cfg_attr(not(feature = "std"), no_std)]
+#![warn(unused_crate_dependencies)]
 
-use sp_core::crypto::Ss58AddressFormat;
+/// Low-level types used throughout the CORD code.
 use sp_runtime::{
 	generic,
 	traits::{BlakeTwo256, IdentifyAccount, Verify},
 	MultiSignature, OpaqueExtrinsic,
 };
 use sp_std::vec::Vec;
-
-/// The current node version, which takes the basic SemVer form `<major>.<minor>.<patch>`.
-/// In general, minor should be bumped on every release while major or patch releases are
-/// relatively rare.
-///
-/// The associated worker binaries should use the same version as the node that spawns them.
-pub const NODE_VERSION: &'static str = "0.9.3";
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -109,24 +100,4 @@ pub const AUTHORSHIP_PERIOD: u32 = 20;
 /// Trait definition for network type
 pub trait IsPermissioned {
 	fn is_permissioned() -> bool;
-}
-
-#[derive(Debug, Clone, Copy)]
-pub enum Ss58AddressFormatPrefix {
-	/// Default for Braid Base
-	Base = 3893,
-	/// Default for Braid Plus
-	Plus = 4926,
-	/// Default for Loom
-	Loom = 29,
-	/// Default for Weave
-	Weave = 14058,
-	/// Default for unknown chains
-	Default = 42,
-}
-
-impl From<Ss58AddressFormatPrefix> for Ss58AddressFormat {
-	fn from(prefix: Ss58AddressFormatPrefix) -> Self {
-		Ss58AddressFormat::custom(prefix as u16)
-	}
 }
